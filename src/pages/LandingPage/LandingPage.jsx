@@ -5,7 +5,7 @@ import Button from "../../components/Button/Button";
 import Product from "../../assets/image/Product.png";
 function LandingPage() {
   return (
-    <div className="grid grid-cols-2 h-screen md:grid-cols-1 md:mb-20">
+    <div className="grid grid-cols-2 h-screen md:grid-cols-1 md:mb-10">
       <div className="bg-landingPageBg bg-cover bg-no-repeat bg-center md:bg-none ">
         <img src={Product} alt="" className="hidden md:flex object-cover md:px-10" />
       </div>
