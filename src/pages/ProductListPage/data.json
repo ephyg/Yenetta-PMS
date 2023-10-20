@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "product_name": "Example Product",
+    "product_description": "Example Description",
+    "price": 200,
+    "quantity": 12
+  }
+]

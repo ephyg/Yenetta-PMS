@@ -8,10 +8,17 @@ export default {
       },
       colors: {
         blue: "#247297",
-        blue_hover:"#185b7a "
+        blue_hover: "#185b7a",
+        white_gray: "#D1D5DB",
+        link_color: "#0c83ff",
+        cancel: "#E6E6E6",
+      },
+      borderRadius: {
+        smd: "4px",
       },
       backgroundImage: (theme) => ({
         landingPageBg: "url('./assets/image/Product.png')",
+        newProductPageBg: "url('./assets/image/new_product.jpg')",
       }),
     },
     screens: {
