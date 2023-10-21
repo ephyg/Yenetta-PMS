@@ -45,10 +45,10 @@ function AddProduct() {
         </div>
         <form
           onSubmit={handleSubmit}
-          className="flex  border-blue rounded-md flex-col pt-5 px-16 md:px-0"
+          className="flex  border-blue rounded-md flex-col pt-2 px-16 md:px-0"
         >
           <h1 className="text-2xl font-roboto text-center">New Product</h1>
-          <div className="flex flex-col mt-8 gap-1">
+          <div className="flex flex-col mt-5 gap-1">
             <InputField
               label="Product Name"
               placeholder="Example Product"
@@ -118,7 +118,7 @@ function AddProduct() {
               }
             />
           </div>
-          <div className="flex flex-col mt-5 mb-10 gap-2">
+          <div className="flex flex-col mt-5 mb-5 gap-2">
             <Button
               text="Add Product"
               type="submit"

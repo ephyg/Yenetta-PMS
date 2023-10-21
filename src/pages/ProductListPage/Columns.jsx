@@ -4,6 +4,8 @@ import {
   BiChevronsLeft,
   BiChevronsRight,
 } from "react-icons/bi";
+import { RiDeleteBin6Fill } from "react-icons/ri";
+import { AiFillEdit } from "react-icons/ai";
 const Columns = [
   {
     Header: "No.",
@@ -26,10 +28,5 @@ const Columns = [
     Header: "Quantity",
     accessor: "quantity",
   },
-  {
-    Header: "Edit",
-    accessor: BiChevronLeft,
-  },
-  { Header: "Delete", accessor: BiChevronLeft },
 ];
 export default Columns;
