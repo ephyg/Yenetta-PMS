@@ -52,7 +52,7 @@ function ProductListPage() {
   } = tableInstance;
   const handleEditClick = (row) => {
     console.log(row.original.id);
-    setEditPopUp(true)
+    setEditPopUp(true);
   };
   const handleDeleteClick = (row) => {
     setDeletePopUp(true);
@@ -149,7 +149,7 @@ function ProductListPage() {
                         <td
                           {...cell.getCellProps}
                           key={index}
-                          className="border py-1 text-sm px-2  font-extralight cursor-pointer"
+                          className="border py-1 text-sm px-2  font-normal cursor-pointer"
                         >
                           {cell.render("Cell")}
                         </td>
