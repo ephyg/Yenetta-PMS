@@ -1,16 +1,10 @@
-import {
-  BiChevronLeft,
-  BiChevronRight,
-  BiChevronsLeft,
-  BiChevronsRight,
-} from "react-icons/bi";
-import { RiDeleteBin6Fill } from "react-icons/ri";
-import { AiFillEdit } from "react-icons/ai";
+
 const Columns = [
   {
     Header: "No.",
-    accessor: (row, index) => index + 1, // Incremental number starting from 1
-    disableSortBy: true, // Disable sorting for this column
+    accessor: (row, index) => index + 1,
+    disableSortBy: true,
+    width: 20, 
   },
   {
     Header: "Product Name",

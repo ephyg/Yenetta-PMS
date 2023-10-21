@@ -5,10 +5,10 @@ import { useFormik } from "formik";
 import AddProductValidation from "../AddProduct/AddProductValidation";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
-function EditPopUp({ Edit_Pop_Up }) {
+function EditPopUp({ Edit_Pop_Up, editData }) {
   const onSubmit = () => {
     console.log(values);
-    Edit_Pop_Up(false);
+    // Edit_Pop_Up(false);
   };
 
   const {
@@ -21,10 +21,10 @@ function EditPopUp({ Edit_Pop_Up }) {
     setValues,
   } = useFormik({
     initialValues: {
-      product_name: "",
-      product_description: "",
-      price: "",
-      quantity: "",
+      product_name: editData.product_name,
+      product_description: editData.product_description,
+      price: editData.price,
+      quantity: editData.quantity,
     },
     validationSchema: AddProductValidation,
     onSubmit,
@@ -41,10 +41,10 @@ function EditPopUp({ Edit_Pop_Up }) {
   const handleCancelPopUp = () => {
     Edit_Pop_Up(false);
   };
+  console.log(editData);
   return (
-    <div  class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-      <div 
-      class="w-full max-w-lg bg-white shadow-lg rounded-lg px-5 py-4 relative">
+    <f class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+      <form onSubmit={handleSubmit} class="w-full max-w-lg bg-white shadow-lg rounded-lg px-5 py-4 relative">
         <div className="flex justify-between items-center mb-3">
           <img src={Yenetta} className="h-8" alt="" />
           <FaTimes
@@ -138,8 +138,8 @@ function EditPopUp({ Edit_Pop_Up }) {
             className="bg-cancel bg-opacity-50 hover:bg-opacity-80"
           />
         </div>
-      </div>
-    </div>
+      </form>
+    </f>
   );
 }
 

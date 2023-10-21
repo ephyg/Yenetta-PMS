@@ -24,11 +24,12 @@ function ProductListPage() {
   const data = useMemo(() => Data, []);
   const [deletePopUp, setDeletePopUp] = useState(false);
   const [editPopUp, setEditPopUp] = useState(false);
+  const [editableData, setEditableData] = useState();
   const tableInstance = useTable(
     {
       columns,
       data,
-      initialState: { pageIndex: 0, pageSize: 10 },
+      initialState: { pageIndex: 0, pageSize: 13 },
     },
     useGlobalFilter,
     useSortBy,
@@ -51,12 +52,11 @@ function ProductListPage() {
     state: { globalFilter, pageIndex },
   } = tableInstance;
   const handleEditClick = (row) => {
-    console.log(row.original.id);
     setEditPopUp(true);
+    setEditableData(row.original);
   };
   const handleDeleteClick = (row) => {
     setDeletePopUp(true);
-    console.log(row.original);
   };
   const handlePopUpDelete = () => {
     setDeletePopUp(false);
@@ -100,7 +100,9 @@ function ProductListPage() {
           </div>
         </div>
       )}
-      {editPopUp && <EditPopUp Edit_Pop_Up={setEditPopUp} />}
+      {editPopUp && (
+        <EditPopUp Edit_Pop_Up={setEditPopUp} editData={editableData} />
+      )}
       <NavigationBar />
       <div className="">
         <div className="mt-36 px-52 overflow-auto whitespace-nowrap md:px-3">
