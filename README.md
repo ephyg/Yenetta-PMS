@@ -15,9 +15,15 @@ First Clone the project then install the following dependencies
     npm install react-table
     npm install react-toastify
     npm install yup
-
 ```
-
+To run the Project go to root directory of the project
+```bash
+    cd product-management-system
+```
+Then run the project with the following command
+```bash 
+    npm dev run
+```
 ## Project Screenshots
 ![App Screenshot](https://res.cloudinary.com/drbvkt6rd/image/upload/v1697982586/screencapture-localhost-5173-2023-10-22-19_41_35_jrx52p.png)
 ![App Screenshot](https://res.cloudinary.com/drbvkt6rd/image/upload/v1697982585/screencapture-localhost-5173-products-2023-10-22-19_41_47_cdrqxw.png)
