@@ -1,8 +1,10 @@
 ![Logo](https://res.cloudinary.com/drbvkt6rd/image/upload/v1697981479/Yenetta_xeev0p.png)
 ## Project Management System
 The Project Management System is a responsive web app, ensuring a seamless user experience on mobile and desktop devices.
-To access the project in action, just click over
+To access the deployed project, just click over
 [Here](https://yenetta.netlify.app/)!
+To see the Figma Design of the project click [Here](https://www.figma.com/file/hjDWlEwE5XOoBueNLQr75v/Untitled?type=design&node-id=0%3A1&mode=design&t=VNQgIKznHIeaSzzB-1)
+##### I used [Mockapi](https://mockapi.io/) to store my data 
 ### SetUp Project
 First Clone the project then install the following dependencies
 ```bash
