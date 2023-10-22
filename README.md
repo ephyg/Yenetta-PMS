@@ -1,5 +1,6 @@
 ![Logo](https://res.cloudinary.com/drbvkt6rd/image/upload/v1697981479/Yenetta_xeev0p.png)
 ## Project Management System
+The Project Management System is a responsive web app, ensuring a seamless user experience on mobile and desktop devices.
 To access the project in action, just click over
 [Here](https://yenetta.netlify.app/)!
 ### SetUp Project
