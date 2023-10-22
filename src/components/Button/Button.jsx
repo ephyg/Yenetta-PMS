@@ -19,7 +19,7 @@ function Button({
         onClick={onClick}
         disabled={disabled}
       >
-        <div className="flex justify-center items-center ">
+        <div className="flex justify-center gap-2 items-center ">
           {text}
           {icon != null &&
             React.createElement(icon, {

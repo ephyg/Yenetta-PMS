@@ -4,13 +4,20 @@ import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import Columns from "./Columns";
 import Button from "../../components/Button/Button";
 import Data from "./data.json";
+import * as api from "../../api/ProductApi";
 import {
   useGlobalFilter,
   usePagination,
   useSortBy,
   useTable,
 } from "react-table";
-import { FaAngleDown, FaAngleUp, FaEdit, FaTimes } from "react-icons/fa";
+import {
+  FaAngleDown,
+  FaAngleUp,
+  FaEdit,
+  FaSpinner,
+  FaTimes,
+} from "react-icons/fa";
 import {
   BiChevronLeft,
   BiChevronRight,
@@ -19,12 +26,15 @@ import {
 } from "react-icons/bi";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import EditPopUp from "../EditPopUP/EditPopUp";
-function ProductListPage() {
+import { useMutation, useQueryClient } from "react-query";
+function ProductListPage({ ProductData }) {
   const columns = useMemo(() => Columns, []);
-  const data = useMemo(() => Data, []);
+  const data = useMemo(() => ProductData, [ProductData]);
   const [deletePopUp, setDeletePopUp] = useState(false);
+  const [deletedId, setDeletedId] = useState();
   const [editPopUp, setEditPopUp] = useState(false);
   const [editableData, setEditableData] = useState();
+  const queryClient = useQueryClient();
   const tableInstance = useTable(
     {
       columns,
@@ -51,15 +61,26 @@ function ProductListPage() {
     previousPage,
     state: { globalFilter, pageIndex },
   } = tableInstance;
+  const deleteProduct = async (id) => {
+    const response = await api.DeleteProducts(id);
+    return response;
+  };
+  const deleteProductMutation = useMutation(deleteProduct, {
+    onSuccess: (response) => {
+      queryClient.invalidateQueries(["ProductList"]);
+      setDeletePopUp(false);
+    },
+  });
   const handleEditClick = (row) => {
     setEditPopUp(true);
     setEditableData(row.original);
   };
-  const handleDeleteClick = (row) => {
+  const handleDeleteClick = async (row) => {
+    setDeletedId(row.original.id);
     setDeletePopUp(true);
   };
   const handlePopUpDelete = () => {
-    setDeletePopUp(false);
+    deleteProductMutation.mutate(deletedId);
   };
   const handlePopUpCancel = () => {
     setDeletePopUp(false);
@@ -86,11 +107,22 @@ function ProductListPage() {
               </p>
             </div>
             <div class="text-right flex justify-end space-x-4 md:flex md:flex-col md:justify-center md:space-x-0 md:space-y-2">
-              <Button
-                onClick={handlePopUpDelete}
-                text="Delete"
-                className="bg-red-500 text-white hover:bg-red-600 min-w-[150px]"
-              />
+              {deleteProductMutation.isLoading ? (
+                <Button
+                  className="bg-red-500 text-white hover:bg-red-600 min-w-[150px]"
+                  text="Deleting "
+                  disabled={true}
+                  iconSize={18}
+                  icon={FaSpinner}
+                  animation="animate-spin"
+                />
+              ) : (
+                <Button
+                  onClick={handlePopUpDelete}
+                  text="Delete"
+                  className="bg-red-500 text-white hover:bg-red-600 min-w-[150px]"
+                />
+              )}
               <Button
                 onClick={handlePopUpCancel}
                 text="Cancel"
@@ -105,7 +137,7 @@ function ProductListPage() {
       )}
       <NavigationBar />
       <div className="">
-        <div className="mt-36 px-52 overflow-auto whitespace-nowrap md:px-3">
+        <div className="mt-36 px-52 overflow-auto whitespace-nowrap md:px-3 pb-10">
           <table {...getTableProps()} className="text-left min-w-full">
             <thead>
               {headerGroups.map((headerGroup) => (

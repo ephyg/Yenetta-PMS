@@ -1,14 +1,27 @@
 import React, { useState } from "react";
 import Yenetta from "../../assets/image/Yenetta.png";
-import { FaTimes } from "react-icons/fa";
+import { FaSpinner, FaTimes } from "react-icons/fa";
 import { useFormik } from "formik";
 import AddProductValidation from "../AddProduct/AddProductValidation";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
+import * as api from "../../api/ProductApi";
+import { useMutation, useQueryClient } from "react-query";
 function EditPopUp({ Edit_Pop_Up, editData }) {
-  const onSubmit = () => {
-    console.log(values);
-    // Edit_Pop_Up(false);
+  const queryClient = useQueryClient();
+
+  const EditProduct = async (data) => {
+    const response = await api.UpdateProducts(data, editData.id);
+    return response;
+  };
+  const EditProductMutation = useMutation(EditProduct, {
+    onSuccess: async (response) => {
+      await queryClient.invalidateQueries(["ProductList"]);
+      Edit_Pop_Up(false);
+    },
+  });
+  const onSubmit = async () => {
+    EditProductMutation.mutate(values);
   };
 
   const {
@@ -41,10 +54,12 @@ function EditPopUp({ Edit_Pop_Up, editData }) {
   const handleCancelPopUp = () => {
     Edit_Pop_Up(false);
   };
-  console.log(editData);
   return (
-    <f class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-      <form onSubmit={handleSubmit} class="w-full max-w-lg bg-white shadow-lg rounded-lg px-5 py-4 relative">
+    <div class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+      <form
+        onSubmit={handleSubmit}
+        class="w-full max-w-lg bg-white shadow-lg rounded-lg px-5 py-4 relative"
+      >
         <div className="flex justify-between items-center mb-3">
           <img src={Yenetta} className="h-8" alt="" />
           <FaTimes
@@ -125,12 +140,23 @@ function EditPopUp({ Edit_Pop_Up, editData }) {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <Button
-            text="Update Change"
-            type="submit"
-            onClick={onSubmit}
-            className="bg-blue text-white hover:bg-blue_hover"
-          />
+          {EditProductMutation.isLoading ? (
+            <Button
+              className="bg-blue flex gap-2 text-white hover:bg-blue_hover"
+              text="Updating "
+              disabled={true}
+              iconSize={18}
+              icon={FaSpinner}
+              animation="animate-spin"
+            />
+          ) : (
+            <Button
+              text="Update Change"
+              type="submit"
+              // onClick={onSubmit}
+              className="bg-blue text-white hover:bg-blue_hover"
+            />
+          )}
           <Button
             text="Cancel Change"
             onClick={handleClear}
@@ -139,7 +165,7 @@ function EditPopUp({ Edit_Pop_Up, editData }) {
           />
         </div>
       </form>
-    </f>
+    </div>
   );
 }
 

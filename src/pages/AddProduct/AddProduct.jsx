@@ -5,9 +5,27 @@ import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 import { useFormik } from "formik";
 import AddProductValidation from "./AddProductValidation";
+import * as api from "../../api/ProductApi";
+import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "react-query";
+import { FaSpinner } from "react-icons/fa";
 function AddProduct() {
-  const onSubmit = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const addNewProduct = async (data) => {
+    const response = await api.AddNewProducts(data);
+    return response;
+  };
+  const addNewProductMutation = useMutation(addNewProduct, {
+    onSuccess: (response) => {
+      queryClient.invalidateQueries(["ProductList"]);
+      navigate("/products");
+    },
+  });
+  const onSubmit = (values) => {
     console.log(values);
+    addNewProductMutation.mutate(values);
   };
 
   const {
@@ -36,16 +54,17 @@ function AddProduct() {
       quantity: "",
     });
   };
+
   return (
     <>
       <NavigationBar />
-      <div className="px-52 mt-36 grid grid-cols-2 md:grid-cols-1 md:px-3">
+      <div className="px-52 mt-36 grid grid-cols-2 md:grid-cols-1 md:px-3 lg:grid-cols-1">
         <div className="flex justify-center items-center md:hidden">
           <img src={NewProduct} alt="" />
         </div>
         <form
           onSubmit={handleSubmit}
-          className="flex  border-blue rounded-md flex-col pt-2 px-16 md:px-0"
+          className="flex  border-blue rounded-md flex-col pt-2 px-16 md:px-0 lg:px-0"
         >
           <h1 className="text-2xl font-roboto text-center">New Product</h1>
           <div className="flex flex-col mt-5 gap-1">
@@ -119,12 +138,23 @@ function AddProduct() {
             />
           </div>
           <div className="flex flex-col mt-5 mb-5 gap-2">
-            <Button
-              text="Add Product"
-              type="submit"
-              onClick={onsubmit}
-              className="bg-blue text-white hover:bg-blue_hover"
-            />
+            {addNewProductMutation.isLoading ? (
+              <Button
+                className="bg-blue flex gap-2 text-white hover:bg-blue_hover"
+                text="Add Product  "
+                disabled={true}
+                iconSize={18}
+                icon={FaSpinner}
+                animation="animate-spin"
+              />
+            ) : (
+              <Button
+                text="Add Product"
+                type="submit"
+                onClick={onsubmit}
+                className="bg-blue text-white hover:bg-blue_hover"
+              />
+            )}
             <Button
               text="Clear"
               onClick={handleClear}
