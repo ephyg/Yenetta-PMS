@@ -137,11 +137,11 @@ function ProductListPage({ ProductData }) {
             <div class="mt-4 mb-3 flex justify-between ">
               {!checkData.availability ? (
                 <h4 class="text-base font-semibold md:text-sm">
-                  Are the items currently out of stock?
+                  Is the item currently out of stock?
                 </h4>
               ) : (
                 <h4 class="text-base font-semibold md:text-sm">
-                  Are the items currently in stock?
+                  Is the item currently in stock?
                 </h4>
               )}
 
