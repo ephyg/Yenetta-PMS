@@ -130,7 +130,7 @@ function ProductListPage({ ProductData }) {
     }
   };
   return (
-    <>
+    <div className="max-w-full">
       {checkPopUp && (
         <div class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
           <div class="w-full max-w-lg bg-white shadow-lg rounded-md px-5 py-4 relative">
@@ -154,13 +154,13 @@ function ProductListPage({ ProductData }) {
             <div className="mb-10 md:mb-5">
               {!checkData.availability ? (
                 <p class="text-sm text-gray-400">
-                  This action will set the product as unavailable. You can adjust
-                  it as availability changes.
+                  This action will set the product as unavailable. You can
+                  adjust it as availability changes.
                 </p>
               ) : (
                 <p class="text-sm text-gray-400">
-                  This action will set the product as available. You can
-                  adjust it as availability changes.
+                  This action will set the product as available. You can adjust
+                  it as availability changes.
                 </p>
               )}
             </div>
@@ -239,16 +239,20 @@ function ProductListPage({ ProductData }) {
         <EditPopUp Edit_Pop_Up={setEditPopUp} editData={editableData} />
       )}
       <NavigationBar />
-      <div className="">
-        <div className="mt-36 px-52 overflow-auto whitespace-nowrap md:px-3 pb-2">
-          <table {...getTableProps()} className="text-left min-w-full">
+      <div className="w-full">
+        <div className="mt-36 px-52 overflow-x-auto md:px-3 pb-2">
+          <table {...getTableProps()} className="text-left min-w-full ">
             <thead>
               {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()} className="">
+                <tr {...headerGroup.getHeaderGroupProps()} className="w-full">
                   {headerGroup.headers.map((column) => (
                     <th
                       {...column.getHeaderProps(column.getSortByToggleProps())}
-                      className="py-3 px-2 border text-base font-medium font-roboto text-blue"
+                      className={`py-3 px-2 border text-base font-medium font-roboto text-blue 
+                      ${
+                        column.Header == "Product Description" ? "max-w-96" : ""
+                      }
+                      `}
                     >
                       <span className="flex items-center justify-between">
                         {column.render("Header")}
@@ -267,10 +271,10 @@ function ProductListPage({ ProductData }) {
                   <th className="py-3 px-2 border text-base font-medium font-roboto text-blue w-10">
                     Availability
                   </th>
-                  <th className="py-3 px-2 border text-base font-medium font-roboto text-blue w-16">
+                  <th className="py-3 px-2 border text-base font-medium font-roboto text-blue w-10">
                     Edit
                   </th>
-                  <th className="py-3 px-2 border text-base font-medium font-roboto text-blue w-16">
+                  <th className="py-3 px-2 border text-base font-medium font-roboto text-blue w-10">
                     Delete
                   </th>
                 </tr>
@@ -292,15 +296,16 @@ function ProductListPage({ ProductData }) {
                           className="border py-1 text-sm px-2  font-normal cursor-pointer"
                         >
                           {cell.render("Cell")}
+                          {cell.column.Header == "Price" && (
+                            <span className="ml-2">Birr</span>
+                          )}
                         </td>
                       ))}
                       <td
                         onClick={() => handleCheckBoxClick(row)}
                         className="border py-1 items-center justify-center text-sm px-2  font-extralight cursor-pointer  hover:bg-white_gray hover:bg-opacity-25"
                       >
-                        <div
-                          className="flex w-full justify-center items-center"
-                        >
+                        <div className="flex w-full justify-center items-center">
                           <input
                             type="checkbox"
                             checked={ProductData[index].availability}
@@ -359,7 +364,7 @@ function ProductListPage({ ProductData }) {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -11,6 +11,7 @@ const Columns = [
   {
     Header: "Product Description",
     accessor: "product_description",
+    // width: 400,
   },
   {
     Header: "Price",
@@ -20,6 +21,5 @@ const Columns = [
     Header: "Quantity",
     accessor: "quantity",
   },
-
 ];
 export default Columns;
