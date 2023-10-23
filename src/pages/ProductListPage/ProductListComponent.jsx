@@ -130,7 +130,7 @@ function ProductListPage({ ProductData }) {
     }
   };
   return (
-    <div className="max-w-full">
+    <div className="">
       {checkPopUp && (
         <div class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
           <div class="w-full max-w-lg bg-white shadow-lg rounded-md px-5 py-4 relative">
@@ -239,12 +239,12 @@ function ProductListPage({ ProductData }) {
         <EditPopUp Edit_Pop_Up={setEditPopUp} editData={editableData} />
       )}
       <NavigationBar />
-      <div className="w-full">
-        <div className="mt-36 px-52 overflow-x-auto md:px-3 pb-2">
+      <div className="">
+        <div className="mt-36 px-52 overflow-x-auto md:px-3 lg:px-10 pb-2">
           <table {...getTableProps()} className="text-left min-w-full ">
             <thead>
               {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()} className="w-full">
+                <tr {...headerGroup.getHeaderGroupProps()} className="">
                   {headerGroup.headers.map((column) => (
                     <th
                       {...column.getHeaderProps(column.getSortByToggleProps())}
