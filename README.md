@@ -5,6 +5,7 @@ To access the deployed project, just click over
 [Here](https://yenetta.netlify.app/)!
 To see the Figma Design of the project click [Here](https://www.figma.com/file/hjDWlEwE5XOoBueNLQr75v/Untitled?type=design&node-id=0%3A1&mode=design&t=VNQgIKznHIeaSzzB-1)
 ##### I used [Mockapi](https://mockapi.io/) to store my data 
+Mockapi is a simple tool that lets you easily mock up APIs, generate custom data, and perform operations on it using RESTful interface. It is meant to be used as a prototyping/testing/learning tool
 ### SetUp Project
 First Clone the project then install the following dependencies
 ```bash
