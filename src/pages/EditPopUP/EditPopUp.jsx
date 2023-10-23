@@ -49,7 +49,7 @@ function EditPopUp({ Edit_Pop_Up, editData }) {
       price: "",
       quantity: "",
     });
-    Edit_Pop_Up(false);
+    // Edit_Pop_Up(false);
   };
   const handleCancelPopUp = () => {
     Edit_Pop_Up(false);

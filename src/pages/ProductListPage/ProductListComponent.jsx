@@ -3,7 +3,6 @@ import { BsChevronDoubleRight } from "react-icons/bs";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import Columns from "./Columns";
 import Button from "../../components/Button/Button";
-import Data from "./data.json";
 import * as api from "../../api/ProductApi";
 import {
   useGlobalFilter,
@@ -34,6 +33,10 @@ function ProductListPage({ ProductData }) {
   const [deletedId, setDeletedId] = useState();
   const [editPopUp, setEditPopUp] = useState(false);
   const [editableData, setEditableData] = useState();
+  // const [isChecked, setIsChecked] = useState();
+  const [checkPopUp, setCheckPopUp] = useState();
+  const [checkedId, setCheckedId] = useState();
+  const [checkData, setCheckData] = useState([]);
   const queryClient = useQueryClient();
   const tableInstance = useTable(
     {
@@ -61,6 +64,8 @@ function ProductListPage({ ProductData }) {
     previousPage,
     state: { globalFilter, pageIndex },
   } = tableInstance;
+
+  // DeleteProduct mutation
   const deleteProduct = async (id) => {
     const response = await api.DeleteProducts(id);
     return response;
@@ -71,6 +76,20 @@ function ProductListPage({ ProductData }) {
       setDeletePopUp(false);
     },
   });
+  //Updating Availability
+  const UpadateProduct = async (Data) => {
+    const response = await api.UpdateProducts(Data, checkedId);
+    // console.log(Data,Id)
+    return response;
+  };
+  const UpdateProductMutation = useMutation(UpadateProduct, {
+    onSuccess: async (response) => {
+      await queryClient.invalidateQueries(["ProductList"]);
+      console.log("successfully updated");
+      setCheckPopUp(false);
+    },
+  });
+  // Delete and Edit PopUp
   const handleEditClick = (row) => {
     setEditPopUp(true);
     setEditableData(row.original);
@@ -82,11 +101,95 @@ function ProductListPage({ ProductData }) {
   const handlePopUpDelete = () => {
     deleteProductMutation.mutate(deletedId);
   };
+
+  // Delete popup cancel button
   const handlePopUpCancel = () => {
     setDeletePopUp(false);
   };
+
+  // CheckBox PopUp
+  const handleCheckBoxClick = (row) => {
+    setCheckedId(row.original.id);
+    const data = {
+      product_name: row.original.product_name,
+      product_description: row.original.product_description,
+      price: row.original.price,
+      quantity: row.original.quantity,
+      availability: !row.original.availability,
+    };
+    setCheckData(data);
+    setCheckPopUp(true);
+  };
+  const handlePopUpCheckBox = async (isChecked) => {
+    if (isChecked) {
+      console.log(checkData, checkedId);
+
+      UpdateProductMutation.mutate(checkData);
+    } else {
+      setCheckPopUp(false);
+    }
+  };
   return (
     <>
+      {checkPopUp && (
+        <div class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+          <div class="w-full max-w-lg bg-white shadow-lg rounded-md px-5 py-4 relative">
+            <div class="mt-4 mb-3 flex justify-between ">
+              {!checkData.availability ? (
+                <h4 class="text-base font-semibold md:text-sm">
+                  Are the items currently out of stock?
+                </h4>
+              ) : (
+                <h4 class="text-base font-semibold md:text-sm">
+                  Are the items currently in stock?
+                </h4>
+              )}
+
+              <FaTimes
+                size={20}
+                className="cursor-pointer"
+                onClick={() => handlePopUpCheckBox(false)}
+              />
+            </div>
+            <div className="mb-10 md:mb-5">
+              {!checkData.availability ? (
+                <p class="text-sm text-gray-400">
+                  This action will set the product as unavailable. You can adjust
+                  it as availability changes.
+                </p>
+              ) : (
+                <p class="text-sm text-gray-400">
+                  This action will set the product as available. You can
+                  adjust it as availability changes.
+                </p>
+              )}
+            </div>
+            <div class="text-right flex justify-end space-x-4 md:flex md:flex-col md:justify-center md:space-x-0 md:space-y-2">
+              {UpdateProductMutation.isLoading ? (
+                <Button
+                  className="bg-blue text-white hover:bg-blue_hover min-w-[150px]"
+                  text="Changing "
+                  disabled={true}
+                  iconSize={18}
+                  icon={FaSpinner}
+                  animation="animate-spin"
+                />
+              ) : (
+                <Button
+                  onClick={() => handlePopUpCheckBox(true)}
+                  text="Yes"
+                  className="bg-blue text-white hover:bg-blue_hover min-w-[150px]"
+                />
+              )}
+              <Button
+                onClick={() => handlePopUpCheckBox(false)}
+                text="Cancel"
+                className="bg-zinc-200  text-black hover:bg-zinc-300 min-w-[150px]"
+              />
+            </div>
+          </div>
+        </div>
+      )}
       {deletePopUp && (
         <div class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
           <div class="w-full max-w-lg bg-white shadow-lg rounded-md px-5 py-4 relative">
@@ -161,6 +264,9 @@ function ProductListPage({ ProductData }) {
                       </span>
                     </th>
                   ))}
+                  <th className="py-3 px-2 border text-base font-medium font-roboto text-blue w-10">
+                    Availability
+                  </th>
                   <th className="py-3 px-2 border text-base font-medium font-roboto text-blue w-16">
                     Edit
                   </th>
@@ -188,6 +294,22 @@ function ProductListPage({ ProductData }) {
                           {cell.render("Cell")}
                         </td>
                       ))}
+                      <td
+                        onClick={() => handleCheckBoxClick(row)}
+                        className="border py-1 items-center justify-center text-sm px-2  font-extralight cursor-pointer  hover:bg-white_gray hover:bg-opacity-25"
+                      >
+                        <div
+                          className="flex w-full justify-center items-center"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={ProductData[index].availability}
+                            className="text-center cursor-pointer"
+                            onChange={() => handleCheckBoxClick(row)}
+                          />
+                        </div>
+                      </td>
+
                       <td
                         onClick={() => handleEditClick(row)}
                         className="border py-1 text-sm px-2  font-extralight cursor-pointer   hover:bg-white_gray hover:bg-opacity-25"

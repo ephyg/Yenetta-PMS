@@ -1,10 +1,8 @@
-
 const Columns = [
   {
     Header: "No.",
     accessor: (row, index) => index + 1,
     disableSortBy: true,
-    width: 20, 
   },
   {
     Header: "Product Name",
@@ -22,5 +20,6 @@ const Columns = [
     Header: "Quantity",
     accessor: "quantity",
   },
+
 ];
 export default Columns;

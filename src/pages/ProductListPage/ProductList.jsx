@@ -10,7 +10,6 @@ function ProductList() {
     isError,
   } = useQuery("ProductList", () => api.AllProducts());
 
-
   if (isLoading) {
     return (
       <div class="bg-transparent fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000]">
@@ -21,7 +20,11 @@ function ProductList() {
     );
   }
   return (
-    <>{productsList && <ProductListComponent ProductData={productsList} />}</>
+    <>
+      {productsList && (
+        <ProductListComponent ProductData={productsList} />
+      )}
+    </>
   );
 }
 
