@@ -240,7 +240,7 @@ function ProductListPage({ ProductData }) {
       )}
       <NavigationBar />
       <div className="">
-        <div className="mt-36 px-52 overflow-auto whitespace-nowrap md:px-3 pb-10">
+        <div className="mt-36 px-52 overflow-auto whitespace-nowrap md:px-3 pb-2">
           <table {...getTableProps()} className="text-left min-w-full">
             <thead>
               {headerGroups.map((headerGroup) => (
